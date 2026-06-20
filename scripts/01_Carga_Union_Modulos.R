@@ -36,5 +36,7 @@ nrow(enaho_jefes_2024) == nrow(sumaria)
 
 gc()
 
-
-
+#4. Exportacion de base de datos creada-----------------------------------------
+install.packages("arrow")
+library(arrow)
+renv::snapshot()
