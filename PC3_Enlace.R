@@ -11,6 +11,7 @@ dir.create("Datos/Crudos")
 dir.create("Datos/procesados")
 dir.create("outputs")
 dir.create("docs")
+dir.create("scripts")
 
 
 #Enlace con Git y Github
@@ -22,6 +23,8 @@ usethis::use_git_config(
 usethis::use_git()
 gitcreds::gitcreds_set()
 usethis::use_github()
+
+
 
 
 
