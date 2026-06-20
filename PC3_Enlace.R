@@ -14,3 +14,22 @@ dir.create("docs")
 
 
 #Enlace con Git y Github
+usethis::use_git_config(
+  user.name = "Hasbrali",
+  user.email = "esteba.raphael@pucp.edu.pe"
+)
+
+usethis::use_git()
+gitcreds::gitcreds_set()
+usethis::use_github()
+
+
+
+
+
+
+
+
+
+
+
