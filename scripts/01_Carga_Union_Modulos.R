@@ -41,3 +41,5 @@ install.packages("arrow")
 library(arrow)
 renv::snapshot()
 write_parquet(enaho_jefes_2024, "Datos/procesados/enaho_jefes_2024_190626.parquet")
+
+renv::snapshot()
