@@ -15,9 +15,9 @@ El proyecto está desarrollado utilizando la versión **4.5.3** de R, controland
 
 ## Estructura del directorio
 El directorio se organiza de la siguiente manera:
-'''text
+```text
 ├── PC3 TALLER DE DATOS.Rproj   # Archivo de inicialización del entorno R Project
-├── 01_Carga_Union_Modulos.R    # Script principal: Importación, estandarización de eñes, filtrado de jefes de hogar (p203 == 1) y joins institucionales
+├── 01_Carga_Union_Modulos.R    # Script principal: Importación, estandarización de eñes, filtrado de jefes y joins
 ├── PC3_Enlace.R                # Script complementario de enlace y flujos de trabajo
 ├── Datos/
 │   ├── Crudos/                 # Módulos originales de la ENAHO 2024 en formato .dta (Stata)
@@ -29,5 +29,5 @@ El directorio se organiza de la siguiente manera:
 ├── outputs/                    # Resultados, tablas y gráficos generados
 ├── scripts/                    # Scripts secundarios o de respaldo
 ├── renv/                       # Carpeta aislada del entorno local de paquetes privados
-├── renv.lock                   # Registro exacto ("cápsula del tiempo") de las versiones de las librerías (`arrow`, `assertthat`, etc.)
+├── renv.lock                   # Registro exacto ("cápsula del tiempo") de las versiones de las librerías
 └── .gitignore                  # Configuración de exclusión para evitar subir las bases pesadas a GitHub
