@@ -15,7 +15,7 @@ El proyecto está desarrollado utilizando la versión **4.5.3** de R, controland
 
 ## Estructura del directorio
 El directorio se organiza de la siguiente manera:
-
+'''text
 ├── PC3 TALLER DE DATOS.Rproj   # Archivo de inicialización del entorno R Project
 ├── 01_Carga_Union_Modulos.R    # Script principal: Importación, estandarización de eñes, filtrado de jefes de hogar (p203 == 1) y joins institucionales
 ├── PC3_Enlace.R                # Script complementario de enlace y flujos de trabajo
