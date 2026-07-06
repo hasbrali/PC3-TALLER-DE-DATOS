@@ -22,6 +22,7 @@ base_unida <- read_parquet("Datos/procesados/enaho_jefes_2024_190626.parquet")
 jefes_acondicionada <- base_unida %>%
   select(
     # Llaves institucionales y geográficas obligatorias
+    # Llaves
     aÑo,
     mes,
     conglome,

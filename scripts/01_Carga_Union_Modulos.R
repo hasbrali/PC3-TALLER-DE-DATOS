@@ -24,15 +24,17 @@ sumaria <- import("Datos/Crudos/sumaria-2024-12g.dta")
   
 #3. Union de bases y filtrado---------------------------------------------------------
 
-keys_hogar    <- c("aÑo", "mes", "conglome", "vivienda", "hogar", "ubigeo", "dominio", "estrato")
-keys_personas <- c(keys_hogar, "codperso")
+keys = c("aÑo", "mes", "conglome", "vivienda", "hogar", "ubigeo", "dominio", "estrato", "codperso")
 
-enaho_jefes_2024 <- mod500 %>% 
+enaho_total <- mod500 %>%
   filter(p203 == 1) %>% 
-  left_join(mod400, by = keys_personas) %>% 
-  left_join(sumaria, by = keys_hogar)
+  left_join(mod400, by = keys) %>%
+  left_join(mod300, by = keys) %>%
+  # Sumaria no tiene 'codperso', intersect() seleccionará automáticamente las 8 llaves del hogar
+  left_join(sumaria, by = intersect(names(.), names(sumaria)))
+
 #Verificacion de filas
-nrow(enaho_jefes_2024) == nrow(sumaria)
+nrow(enaho_total) == nrow(sumaria)
 
 gc()
 
@@ -40,6 +42,6 @@ gc()
 install.packages("arrow")
 library(arrow)
 renv::snapshot()
-write_parquet(enaho_jefes_2024, "Datos/procesados/enaho_jefes_2024_190626.parquet")
+write_parquet(enaho_total, "Datos/procesados/enaho_total_2024_050726.parquet")
 
 renv::snapshot()
