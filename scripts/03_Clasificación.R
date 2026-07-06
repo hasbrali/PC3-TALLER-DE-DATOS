@@ -44,7 +44,7 @@ jefes_explora <- jefes_acondicionada %>%
     )
   )
 
-#3 Analisis exploratorio bivariado
+#3 Analisis exploratorio bivariado y univariado
 
 #3.1 Idioma materno por ingreso
 bivariado_idioma_ingreso <- jefes_explora %>%
@@ -69,3 +69,12 @@ grafico_uni_ingreso <- ggplot(jefes_explora, aes(x = ingreso_bruto)) +
   ) +
   theme_minimal()
 ggsave("outputs/Grafico_Univariado_Ingreso.png", plot = grafico_uni_ingreso, width = 8, height = 5, bg = "white")
+
+#3.3 Tabla de distribución de jefes por idioma materno
+univariado_idioma <- jefes_explora %>%
+  count(idioma_factor, name = "frecuencia_absoluta") %>%
+  mutate(porcentaje = round((frecuencia_absoluta / sum(frecuencia_absoluta)) * 100, 2))
+
+write_csv(univariado_idioma, "outputs/Tabla_Univariado_Idioma.csv")
+
+
