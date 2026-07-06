@@ -11,9 +11,9 @@ library(scales)
 #Base acondicionada
 jefes_acondicionada <- read_parquet("Datos/procesados/enaho_jefes_acondicionada.parquet")
 
-#2. Recodificación Metodológica
+#2. Recodificación Metodológica--------------------------------------------------
 
-#Creación de códigos numéricos a etiquetas 
+#Creación de códigos numéricos a etiquetas---------------------------------------
 
 jefes_explora <- jefes_acondicionada %>%
   mutate(
@@ -44,5 +44,14 @@ jefes_explora <- jefes_acondicionada %>%
     )
   )
 
+#3 Analisis exploratorio bivariado
 
-
+#3.1 Idioma materno por ingreso
+bivariado_idioma_ingreso <- jefes_explora %>%
+  group_by(idioma_factor) %>%
+  summarise(
+    Total_Jefes      = n(),
+    Ingreso_Promedio = round(mean(ingreso_bruto, na.rm = TRUE), 2),
+    Ingreso_Mediano  = round(median(ingreso_bruto, na.rm = TRUE), 2)
+  )
+write_csv(bivariado_idioma_ingreso, "outputs/Tabla_Bivariado_Idioma_Ingreso.csv")
