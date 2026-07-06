@@ -33,12 +33,12 @@ base_acondicionada <- base_unida %>%
     estrato,
     
     # Variables
-    ingmo1hd,      # Ingreso disponible mensual del hogar
-    p203,   # Parentesco (Filtro Jefe)
-    p208a, # Edad 
-    p207,   # Sexo
-    p300a, # Lengua materna / Idioma
-    p301a, # Nivel educativo alcanzado
-    p510   # Sector de empleo institucional
+    ingreso_bruto = ingmo1hd,      # Ingreso disponible mensual del hogar
+    jefe_familia  = p203,          # Parentesco (Filtro Jefe = 1)
+    edad          = p208a,         # Edad 
+    sexo          = p207,          # Sexo
+    lengua_materna = p300a,        # Lengua materna / Idioma
+    nivel_edu     = p301a,         # Nivel educativo alcanzado
+    sector_empleo = p510           # Sector de empleo institucional
   )
 
