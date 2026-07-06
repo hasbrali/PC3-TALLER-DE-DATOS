@@ -55,3 +55,17 @@ bivariado_idioma_ingreso <- jefes_explora %>%
     Ingreso_Mediano  = round(median(ingreso_bruto, na.rm = TRUE), 2)
   )
 write_csv(bivariado_idioma_ingreso, "outputs/Tabla_Bivariado_Idioma_Ingreso.csv")
+
+#3.2 Gráfico Univariado
+#Histograma de la variable continua ingreso bruto.
+grafico_uni_ingreso <- ggplot(jefes_explora, aes(x = ingreso_bruto)) +
+  geom_histogram(fill = "steelblue", color = "white", bins = 40) +
+  scale_x_log10(labels = dollar_format(prefix = "S/. ")) +
+  labs(
+    title = "Distribución Univariada del Ingreso Bruto Mensual (Escala Log10)",
+    subtitle = "PC4: Estructura de ingresos en Jefes de Familia (2024)",
+    x = "Ingreso Disponible Mensual del Hogar (Soles)",
+    y = "Frecuencia de Hogares"
+  ) +
+  theme_minimal()
+ggsave("outputs/Grafico_Univariado_Ingreso.png", plot = grafico_uni_ingreso, width = 8, height = 5, bg = "white")
