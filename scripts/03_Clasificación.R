@@ -17,21 +17,21 @@ jefes_acondicionada <- read_parquet("Datos/procesados/enaho_jefes_acondicionada.
 
 jefes_explora <- jefes_acondicionada %>%
   mutate(
-    # Lengua Materna (p300a)
+    # Lengua Materna (p300a) - Ajuste estricto al diccionario oficial 2024
     idioma_factor = case_when(
       lengua_materna == 1 ~ "Quechua",
-      lengua_materna == 2 ~ "Aimara",
-      lengua_materna %in% c(3, 4) ~ "Otras Lenguas Nativas", #ashaninka y otras lenguas nativas
-      lengua_materna == 5 ~ "Castellano",
+      lengua_materna == 2 ~ "Aymara",
+      lengua_materna == 4 ~ "Castellano",
+      lengua_materna %in% c(3, 10, 11, 12, 13, 14, 15) ~ "Otras Lenguas Nativas",
       TRUE ~ "Otros/No especificado"
     ),
-    idioma_factor = factor(idioma_factor, levels = c("Castellano", "Quechua", "Aimara", "Otras Lenguas Nativas")),
+    idioma_factor = factor(idioma_factor, levels = c("Castellano", "Quechua", "Aymara", "Otras Lenguas Nativas")),
     
-    # Nivel Educativo (p301a)
+    # Nivel Educativo (p301a) - Ajuste estricto a la codificación del módulo 300
     educ_factor = case_when(
-      nivel_edu %in% c(1, 2, 3) ~ "Sin Educ / Primaria",
-      nivel_edu %in% c(4, 5)    ~ "Secundaria",
-      nivel_edu %in% c(6, 7, 8) ~ "Superior (Tec/Univ)",
+      nivel_edu %in% c(1, 2, 3, 4) ~ "Sin Educ / Primaria", # Incluye primaria completa (4)
+      nivel_edu %in% c(5, 6)       ~ "Secundaria",           # Secundaria incompleta (5) y completa (6)
+      nivel_edu %in% c(7, 8, 9, 10, 11) ~ "Superior (Tec/Univ)", # Superiores y posgrados (7 al 11)
       TRUE ~ "No especificado"
     ),
     educ_factor = factor(educ_factor, levels = c("Sin Educ / Primaria", "Secundaria", "Superior (Tec/Univ)")),
@@ -43,7 +43,6 @@ jefes_explora <- jefes_acondicionada %>%
       TRUE ~ NA_character_
     )
   )
-
 #3 Analisis exploratorio bivariado y univariado---------------------------------
 
 #3.1 Idioma materno por ingreso--------------------------------------------------
@@ -85,3 +84,20 @@ bivariado_educ_idioma <- jefes_explora %>%
   adorn_ns()
 
 write_csv(bivariado_educ_idioma, "outputs/Tabla_Bivariado_Cruce_Educacion.csv")
+
+# 3.5 Gráfico Bivariado: Barras de Ingreso Promedio según Idioma Materno
+grafico_bi_barras <- ggplot(bivariado_idioma_ingreso, aes(x = idioma_factor, y = Ingreso_Promedio, fill = idioma_factor)) +
+  geom_col(color = "black", width = 0.5, show.legend = FALSE) +
+  geom_text(aes(label = paste("S/.", format(Ingreso_Promedio, big.mark=","))), vjust = -0.5, fontface = "bold") +
+  labs(
+    title = "Ingreso Promedio Mensual por Lengua Materna del Jefe de Familia",
+    subtitle = "PC4: Brechas de ingresos según adscripción lingüística (2024)",
+    x = "Lengua Materna",
+    y = "Ingreso Promedio (Soles)",
+    caption = "Fuente: ENAHO 2024 - Instituto Nacional de Estadística e Informática"
+  ) +
+  scale_y_continuous(labels = dollar_format(prefix = "S/. "), limits = c(0, max(bivariado_idioma_ingreso$Ingreso_Promedio) * 1.15)) +
+  theme_minimal()
+
+ggsave("outputs/Grafico_Bivariado_Barras.png", plot = grafico_bi_barras, width = 9, height = 6, bg = "white")
+
