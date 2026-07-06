@@ -101,3 +101,5 @@ grafico_bi_barras <- ggplot(bivariado_idioma_ingreso, aes(x = idioma_factor, y =
 
 ggsave("outputs/Grafico_Bivariado_Barras.png", plot = grafico_bi_barras, width = 9, height = 6, bg = "white")
 
+# 4. EXPORTACIÓN DE LA NUEVA BASE DE DATOS ACTUALIZADA
+write_parquet(jefes_explora, "Datos/procesados/enaho_jefes_exploratoria.parquet")
