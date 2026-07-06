@@ -12,22 +12,28 @@ El proyecto está desarrollado utilizando la versión **4.5.3** de R, controland
 * **`arrow`**: Exportación y manejo eficiente de bases de datos masivas en formato `.parquet`.
 * **`janitor`**: Limpieza y tabulación de datos.
 * **`readr`**: Soporte para la lectura de datos rectangulares.
+# PC4 - INGRESOS POR IDIOMA Y CLASIFICACIÓN ANALÍTICA
 
-## Estructura del directorio
+## Descripción del proyecto
+Este repositorio incluye el código y el flujo de trabajo completo para el procesamiento de la **Práctica Calificada 4 (PC4)** del curso **Taller de Procesamiento de Datos**. 
+
+El objetivo principal es evaluar las brechas socioeconómicas analizando los **ingresos de los jefes de familia** en el Perú según su adscripción lingüística, utilizando los datos oficiales de la **Encuesta Nacional de Hogares (ENAHO) 2024**. El flujo actual incorpora el diagnóstico de valores perdidos, análisis exploratorio bivariado (EDA) y la operacionalización de variables analíticas avanzadas.
+## Estructura del directorio 
 El directorio se organiza de la siguiente manera:
 ```text
-├── PC3 TALLER DE DATOS.Rproj   # Archivo de inicialización del entorno R Project
-├── 01_Carga_Union_Modulos.R    # Script principal: Importación, estandarización de eñes, filtrado de jefes y joins
-├── PC3_Enlace.R                # Script complementario de enlace y flujos de trabajo
+├── PC3 TALLER DE DATOS.Rproj         # Inicialización del entorno R Project
+├── 01_Carga_Union_Modulos.R          # Importación, estandarización de variables y consolidación (Joins)
+├── scripts/
+│   ├── 02_Acondicionamiento_Jefes.R  # Filtro muestral estricto de jefes, selección y diagnóstico de NAs
+│   ├── 03_Exploracion_Jefes.R        # Recodificación estricta según diccionario INEI 2024 y gráficos del EDA
+│   └── 04_Clasificacion_Jefes.R      # Construcción indexada de variables dummies y logaritmo de ingresos
 ├── Datos/
-│   ├── Crudos/                 # Módulos originales de la ENAHO 2024 en formato .dta (Stata)
-│   │   ├── enaho01a-2024-400.dta   # Módulo de Salud
-│   │   ├── enaho01a-2024-500.dta   # Módulo de Empleo
-│   │   └── sumaria-2024-12g.dta    # Módulo de Pobreza e Ingresos
-│   └── procesados/             # Base maestra integrada final en formato eficiente .parquet
-├── docs/                       # Documentación adicional del proyecto
-├── outputs/                    # Resultados, tablas y gráficos generados
-├── scripts/                    # Scripts secundarios o de respaldo
-├── renv/                       # Carpeta aislada del entorno local de paquetes privados
-├── renv.lock                   # Registro exacto ("cápsula del tiempo") de las versiones de las librerías
-└── .gitignore                  # Configuración de exclusión para evitar subir las bases pesadas a GitHub
+│   ├── Crudos/                       # Módulos originales en formato .dta de la ENAHO 2024
+│   └── procesados/
+│       ├── enaho_jefes_acondicionada.parquet # Base filtrada limpia post-diagnóstico
+│       ├── enaho_jefes_exploratoria.parquet  # Base enriquecida con factores lingüísticos y educativos
+│       └── enaho_jefes_analitica.parquet     # Base final con variables dummies y escala logarítmica
+├── outputs/                          # Reportes CSV (Brechas, NAs) e histogramas/gráficos de barras generados
+├── renv/                             # Entorno local aislado de paquetes del proyecto
+├── renv.lock                         # Registro exacto del estado de dependencias del entorno
+└── .gitignore                        # Configuración de exclusión para omitir archivos de datos pesados
