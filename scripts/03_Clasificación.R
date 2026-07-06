@@ -21,7 +21,7 @@ jefes_explora <- jefes_acondicionada %>%
     idioma_factor = case_when(
       lengua_materna == 1 ~ "Quechua",
       lengua_materna == 2 ~ "Aimara",
-      lengua_materna %in% c(3, 4) ~ "Otras Lenguas Nativas",
+      lengua_materna %in% c(3, 4) ~ "Otras Lenguas Nativas", #ashaninka y otras lenguas nativas
       lengua_materna == 5 ~ "Castellano",
       TRUE ~ "Otros/No especificado"
     ),
@@ -44,9 +44,9 @@ jefes_explora <- jefes_acondicionada %>%
     )
   )
 
-#3 Analisis exploratorio bivariado y univariado
+#3 Analisis exploratorio bivariado y univariado---------------------------------
 
-#3.1 Idioma materno por ingreso
+#3.1 Idioma materno por ingreso--------------------------------------------------
 bivariado_idioma_ingreso <- jefes_explora %>%
   group_by(idioma_factor) %>%
   summarise(
@@ -56,7 +56,7 @@ bivariado_idioma_ingreso <- jefes_explora %>%
   )
 write_csv(bivariado_idioma_ingreso, "outputs/Tabla_Bivariado_Idioma_Ingreso.csv")
 
-#3.2 Gráfico Univariado
+#3.2 Gráfico Univariado---------------------------------------------------------
 #Histograma de la variable continua ingreso bruto.
 grafico_uni_ingreso <- ggplot(jefes_explora, aes(x = ingreso_bruto)) +
   geom_histogram(fill = "steelblue", color = "white", bins = 40) +
@@ -70,11 +70,18 @@ grafico_uni_ingreso <- ggplot(jefes_explora, aes(x = ingreso_bruto)) +
   theme_minimal()
 ggsave("outputs/Grafico_Univariado_Ingreso.png", plot = grafico_uni_ingreso, width = 8, height = 5, bg = "white")
 
-#3.3 Tabla de distribución de jefes por idioma materno
+#3.3 Tabla de distribución de jefes por idioma materno--------------------------
 univariado_idioma <- jefes_explora %>%
   count(idioma_factor, name = "frecuencia_absoluta") %>%
   mutate(porcentaje = round((frecuencia_absoluta / sum(frecuencia_absoluta)) * 100, 2))
 
 write_csv(univariado_idioma, "outputs/Tabla_Univariado_Idioma.csv")
 
+#3.4 Tabla de cruce de idioma con nivel educativo-----------------------------
+bivariado_educ_idioma <- jefes_explora %>%
+  tabyl(idioma_factor, educ_factor) %>%
+  adorn_percentages("row") %>%
+  adorn_pct_formatting(digits = 2) %>%
+  adorn_ns()
 
+write_csv(bivariado_educ_idioma, "outputs/Tabla_Bivariado_Cruce_Educacion.csv")
