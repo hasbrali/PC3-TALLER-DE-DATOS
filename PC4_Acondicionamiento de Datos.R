@@ -14,15 +14,14 @@ library(naniar)
 renv::snapshot()
 
 #2.Carga, selección y renombrado de variables de interés------------------------
-
+gc()
 # Cargamos la base integrada
-base_unida <- read_parquet("Datos/procesados/enaho_jefes_2024_190626.parquet")
+base_unida <- read_parquet("Datos/procesados/enaho_total_2024_050726.parquet")
 
 # Seleccionamos y renombramos de acuerdo con las dimensiones del proyecto
-jefes_acondicionada <- base_unida %>%
+base_acondicionada <- base_unida %>%
   select(
-    # Llaves institucionales y geográficas obligatorias
-    # Llaves
+    # Keys
     aÑo,
     mes,
     conglome,
@@ -33,18 +32,13 @@ jefes_acondicionada <- base_unida %>%
     dominio,
     estrato,
     
-    # Dimensión Demográfica e Idioma 
-    parentesco     = p203,    # Validar que todos sean 1 que son Jefes de familia
-    sexo           = sexo,
-    edad           = edad,
-    lengua_materna = p300a,   # idioma / lengua materna
-    etnicidad      = p558c,   # autoidentificación étnica
-    
-    # Dimensión Educación 
-    nivel_edu      = p301a,   # Último año de estudios aprobado / Nivel educativo alcanzado
-    
-    # Dimensión Ingresos y Empleo 
-    sector_empleo  = p510,    # Sector Formal / Informal institucional
-    ingreso_hogar  = ingmo1hd # Ingreso disponible mensual
+    # Variables
+    ingmo1hd,      # Ingreso disponible mensual del hogar
+    p203,   # Parentesco (Filtro Jefe)
+    p208a, # Edad 
+    p207,   # Sexo
+    p300a, # Lengua materna / Idioma
+    p301a, # Nivel educativo alcanzado
+    p510   # Sector de empleo institucional
   )
 
